@@ -33,8 +33,9 @@ body { margin: 0; background: var(--background); color: var(--foreground); font-
 button, input, textarea { font: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: .45; }
-.grid-bg { background-color: #090b10; background-image: linear-gradient(#151c27 1px, transparent 1px), linear-gradient(90deg, #151c27 1px, transparent 1px); background-size: 56px 56px; background-position: center; }
-.grid-bg::before { content: ''; position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 25%, #090b10 85%); }
+.grid-bg { position: relative; isolation: isolate; background-color: #090b10; background-image: linear-gradient(#151c27 1px, transparent 1px), linear-gradient(90deg, #151c27 1px, transparent 1px); background-size: 56px 56px; background-position: center; }
+.grid-bg::before { content: ''; position: fixed; z-index: -1; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 25%, #090b10 85%); }
+.grid-bg > * { position: relative; z-index: 1; }
 .repo-mark { position: relative; display: flex; height: 24px; width: 24px; align-items: center; justify-content: center; overflow: hidden; border-radius: 7px; background: #4c8dff; box-shadow: 0 0 20px rgba(76,141,255,.3); }
 .repo-mark::before, .repo-mark::after, .repo-mark span { content: ''; position: absolute; height: 2px; background: #fff; border-radius: 99px; }
 .repo-mark::before { width: 12px; transform: translateY(-4px) rotate(45deg); } .repo-mark::after { width: 12px; transform: translateY(4px) rotate(-45deg); } .repo-mark span { width: 7px; transform: translateX(0); }
