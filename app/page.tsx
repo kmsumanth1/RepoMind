@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   ArrowUp, BookOpen, Check, ChevronDown, ChevronRight, CircleAlert, CircleDot,
   Code2, Copy, FileCode2, Folder, GitBranch, Hash, Menu, MessageSquare,
@@ -79,7 +79,7 @@ function SourceDrawer({ file, onClose }: { file: string; onClose: () => void }) 
 
 function Indexing({ onReady }: { onReady: () => void }) {
   const [progress, setProgress] = useState(48)
-  useMemo(() => { const timer = setTimeout(() => setProgress(100), 800); const done = setTimeout(onReady, 1450); return () => { clearTimeout(timer); clearTimeout(done) } }, [onReady])
+  useEffect(() => { const timer = setTimeout(() => setProgress(100), 800); const done = setTimeout(onReady, 1450); return () => { clearTimeout(timer); clearTimeout(done) } }, [onReady])
   const steps = ['Cloning repository', 'Parsing files', 'Building embeddings', 'Ready']
   return <main className="grid-bg flex min-h-screen items-center justify-center px-5"><div className="w-full max-w-lg animate-in-up">
     <div className="mb-10 flex justify-center"><RepoMark /></div>
