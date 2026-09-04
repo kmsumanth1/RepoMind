@@ -3,9 +3,9 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'RepoMind — Understand any codebase, instantly',
+  description: 'Ask natural-language questions about your GitHub codebase and get grounded, cited answers.',
+  generator: 'RepoMind',
   icons: {
     icon: [
       {
