@@ -93,6 +93,3 @@ Built by **KM Sumanth**, B.Tech CSE (AI & ML), Mohan Babu University.
 - [ ] Production-grade embeddings (currently defaults to the offline fallback unless `sentence-transformers` is installed)
 - [ ] Deployment (Docker + hosting)
 
-## License
-
-Add a license of your choice (MIT is a common default for student/portfolio projects) before making this repo public.
