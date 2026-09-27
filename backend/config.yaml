@@ -1,0 +1,66 @@
+# RepoMind backend configuration.
+# Any value can be overridden with an env var: REPOMIND__<section>__<key>=value
+# e.g.  REPOMIND__generation__provider=ollama   REPOMIND__embedding__backend=hashing
+
+data_dir: data                 # clones + indexes live in <data_dir>/indexed_repos/
+database_url: ""               # empty -> sqlite at <data_dir>/repomind.db ; or postgresql+psycopg://user:pw@host/db
+
+server:
+  cors_origins: ["http://localhost:3000"]
+
+auth:
+  access_token_minutes: 10080  # 7 days
+  min_password_length: 8
+  login_attempts: 8            # max failed logins per (ip, email) ...
+  login_window_seconds: 300    # ... within this window
+
+indexing:
+  max_workers: 2               # concurrent repo-indexing jobs
+  clone_timeout_seconds: 600
+
+ingestion:
+  max_file_bytes: 400000
+  max_files: 6000
+  skip_translations: true      # drop docs/<locale>/ trees when docs/en exists (FastAPI has ~20 languages)
+  exclude_dirs: [".git", "node_modules", "venv", ".venv", "env", "__pycache__", "dist", "build",
+                 ".tox", ".mypy_cache", ".pytest_cache", ".ruff_cache", ".next", "target", "vendor",
+                 "site-packages", ".idea", ".vscode", "coverage", "htmlcov", ".gradle"]
+  exclude_globs: ["*.min.js", "*.min.css", "*.lock", "package-lock.json", "pnpm-lock.yaml", "yarn.lock",
+                  "*.map", "*.svg"]   # fnmatch patterns on the repo-relative path or file name
+
+chunking:
+  max_chunk_lines: 120         # longer units are split into overlapping windows
+  window_overlap_lines: 10
+  class_split_lines: 60        # classes longer than this -> header chunk + one chunk per method
+  text_window_lines: 60        # config / plain-text files
+  min_chunk_chars: 20
+
+embedding:
+  backend: sentence-transformers   # sentence-transformers | hashing (offline, no model download)
+  model: BAAI/bge-small-en-v1.5    # upgrade path: BAAI/bge-large-en-v1.5
+  batch_size: 32
+  hashing_dim: 768
+  fallback_to_hashing: true        # at INDEX time only; the choice is recorded per repo
+
+retrieval:
+  dense_k: 40
+  sparse_k: 40
+  fused_k: 30
+  rrf_k: 60
+  symbol_weight: 2.0           # weight of exact identifier / filename matches in rank fusion
+  rerank: true
+  reranker_backend: cross-encoder  # cross-encoder | lexical
+  reranker_model: BAAI/bge-reranker-base
+  rerank_top_k: 8
+  min_relevance: null          # null -> reranker default (0.05 cross-encoder / 0.15 lexical)
+  graph_expansion: true
+  graph_max_added: 6
+
+generation:
+  provider: ollama              # auto | anthropic | ollama | extractive
+  anthropic_model: claude-sonnet-5
+  ollama_model: llama3.1        # must match a model you've pulled: `ollama pull llama3.1`
+  ollama_url: http://localhost:11434
+  max_tokens: 1200
+  history_turns: 6
+  max_context_chars: 24000
