@@ -1,0 +1,23 @@
+# --- API / storage ---
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-dotenv>=1.0
+sqlalchemy>=2.0
+pydantic[email]>=2.6
+pyjwt>=2.8
+bcrypt>=4.1
+httpx>=0.27
+pyyaml>=6.0
+# --- RAG core ---
+numpy>=1.26
+faiss-cpu>=1.8
+rank-bm25>=0.2.2
+# --- semantic models (heavy; omit and set embedding.backend=hashing for a lightweight dev setup) ---
+sentence-transformers>=3.0
+# --- LLM providers (install what you use) ---
+anthropic>=0.40
+# --- evaluation (optional) ---
+# ragas>=0.2
+# datasets
+# --- tests ---
+pytest>=8.0
